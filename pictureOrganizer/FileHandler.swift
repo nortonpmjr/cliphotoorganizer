@@ -15,8 +15,8 @@ class FileHandler {
 
     func createFolders() {
         do {
-            try manager.createDirectory(atPath: "\(testRoot)/RAW", withIntermediateDirectories: true, attributes: nil)
-            try manager.createDirectory(atPath: "\(testRoot)/JPEG", withIntermediateDirectories: true, attributes: nil)
+            try manager.createDirectory(atPath: "\(manager.currentDirectoryPath)/RAW", withIntermediateDirectories: true, attributes: nil)
+            try manager.createDirectory(atPath: "\(manager.currentDirectoryPath)/JPEG", withIntermediateDirectories: true, attributes: nil)
 
             consoleIO.writeMessage("Folders created sucessfully")
 
@@ -29,12 +29,11 @@ class FileHandler {
     }
 
     func moveRawPhotos() {
-        //manager.moveitem
         let photos = searchDirectory()
         for photo in photos {
             if photo.contains(".CR2") {
                 do {
-                   try manager.moveItem(atPath: "\(testRoot)/\(photo)", toPath: "\(testRoot)/RAW/\(photo)")
+                   try manager.moveItem(atPath: "\(manager.currentDirectoryPath)/\(photo)", toPath: "\(manager.currentDirectoryPath)/RAW/\(photo)")
                 }
                 catch {
                     consoleIO.writeMessage("Error moving raw photos: \(error)", to: .error)
@@ -44,12 +43,11 @@ class FileHandler {
     }
 
     func moveJpegPhotos() {
-        //manager.moveitem
         let photos = searchDirectory()
         for photo in photos {
             if photo.contains(".JPG") {
                 do {
-                   try manager.moveItem(atPath: "\(testRoot)/\(photo)", toPath: "\(testRoot)/JPEG/\(photo)")
+                   try manager.moveItem(atPath: "\(manager.currentDirectoryPath)/\(photo)", toPath: "\(manager.currentDirectoryPath)/JPEG/\(photo)")
                 }
                 catch {
                     consoleIO.writeMessage("Error moving raw photos: \(error)", to: .error)
