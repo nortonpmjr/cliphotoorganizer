@@ -19,6 +19,7 @@ class FileHandler {
             try manager.createDirectory(atPath: "\(manager.currentDirectoryPath)/JPEG", withIntermediateDirectories: true, attributes: nil)
 
             consoleIO.writeMessage("Folders created sucessfully")
+            consoleIO.writeMessage("Moving files..")
 
             moveRawPhotos()
             moveJpegPhotos()
@@ -33,7 +34,9 @@ class FileHandler {
         for photo in photos {
             if photo.contains(".CR2") {
                 do {
-                   try manager.moveItem(atPath: "\(manager.currentDirectoryPath)/\(photo)", toPath: "\(manager.currentDirectoryPath)/RAW/\(photo)")
+                    consoleIO.writeMessage("Moving RAW files..")
+                    try manager.moveItem(atPath: "\(manager.currentDirectoryPath)/\(photo)", toPath: "\(manager.currentDirectoryPath)/RAW/\(photo)")
+                    consoleIO.writeMessage("Moving RAW files Success")
                 }
                 catch {
                     consoleIO.writeMessage("Error moving raw photos: \(error)", to: .error)
@@ -59,7 +62,7 @@ class FileHandler {
     func searchDirectory() -> [String] {
         do {
             consoleIO.writeMessage(manager.currentDirectoryPath)
-            let contents = try manager.contentsOfDirectory(atPath: testRoot)
+            let contents = try manager.contentsOfDirectory(atPath: manager.currentDirectoryPath)
             return contents
         }
         catch {
